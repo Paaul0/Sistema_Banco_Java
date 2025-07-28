@@ -1,17 +1,12 @@
 public class Conta { ;
     private double saldo;
 
-
-    public Conta(String titular, String tipoConta, double saldo){
-        this.saldo = saldo;
-    }
-
     public void consultarSaldo(){
         System.out.println("Saldo atual: " + saldo);
     }
 
     public void depositar(double valor){
-        valor = saldo;
+        this.saldo = valor;
         System.out.println("Deposito Efetuado!");
     }
 

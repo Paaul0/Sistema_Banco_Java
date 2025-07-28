@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Caixa {
+public class Caixa extends Conta {
     private Scanner teclado;
     private String login;
     private String senha;
@@ -13,9 +13,17 @@ public class Caixa {
         this.teclado = new Scanner(System.in);
     }
 
-    public void iniciar() {
-        while (resposta != 3) {
-            acesso = false;
+    public void executavel() {
+        boolean loginBemSucedido = iniciar();
+        if (loginBemSucedido) {
+            operacao();
+        }
+        System.out.println("sessão finalizada!");
+    }
+
+    private boolean iniciar() {
+        while (true) {
+            boolean acesso = false;
             String mensagem;
             mensagem = """                 
                     Olá, oque Deseja?\n
@@ -25,61 +33,101 @@ public class Caixa {
                     """;
             System.out.println(mensagem);
             resposta = teclado.nextInt();
-            if (resposta == 1) {
-                System.out.println("Digite seu nome completo: ");
-                titular = teclado.next();
+            teclado.nextLine();
 
-                System.out.println("Digite seu login: ");
-                String loginUsuario = teclado.next();
-                login = loginUsuario;
-                System.out.println("Digite sua senha: ");
-                String senhaUsuario = teclado.next();
-                senha = senhaUsuario;
-
-                System.out.println("Digite o tipo de conta \n" +
-                                   "1- Conta corrente \n" +
-                                   "2- Conta poupança");
-                tipoConta = teclado.next();
-                if (tipoConta.equals("1")) {
-                    System.out.println("Conta corrente criada!");
-                    String contaC = "Corrente";
-                    tipoConta = contaC;
-                } else if (tipoConta.equals("2")){
-                    System.out.println("Conta poupança criada!");
-                    String contaP = "Poupança";
-                    tipoConta = contaP;
-                }else {
-                    System.out.println("Opção inexistente. Tente novamente");
-                    continue;
-                }
-
-            } else if (resposta == 2) {
-                if (login == null) {
-                    System.out.println("Perfil ainda não foi criado!");
-                    continue;
-                }
-                System.out.println("Digite seu Login: ");
-                String tentativaLogin = teclado.next();
-                System.out.println("Digite sua senha: ");
-                String tentativaSenha = teclado.next();
-
-                if (tentativaLogin.equals(login) && tentativaSenha.equals(senha)){
-                    acesso = true;
-                    System.out.println("Bem vindo!");
+            switch (resposta) {
+                case 1:
+                    criarPerfil();
                     break;
-                } else {
-                    System.out.println("Login ou Senha incorretos, tente novamente!");
-                }
 
+                case 2:
+                    if (login == null) {
+                        System.out.println("Nenhum perfil foi criado. Escolha outra opção!");
+                        continue;
+                    }
+                    if (fazerLogin()) {
+                        return true;
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Deixando Sistema...");
+                    return false;
+
+                default:
+                    System.out.println("Opção invalida!");
+                    break;
             }
-
         }
-
-
     }
 
+    private void criarPerfil() {
+        System.out.println("Digite seu nome completo: ");
+        titular = teclado.next();
 
+        System.out.println("Digite seu login: ");
+        String loginUsuario = teclado.next();
+        login = loginUsuario;
+        System.out.println("Digite sua senha: ");
+        String senhaUsuario = teclado.next();
+        senha = senhaUsuario;
+
+        System.out.println("Digite o tipo de conta \n" + "1- Conta corrente \n" + "2- Conta poupança");
+        tipoConta = teclado.next();
+        if (tipoConta.equals("1")) {
+            System.out.println("Conta corrente criada!");
+            String contaC = "Corrente";
+            tipoConta = contaC;
+        } else if (tipoConta.equals("2")) {
+            System.out.println("Conta poupança criada!");
+            String contaP = "Poupança";
+            tipoConta = contaP;
+        } else {
+            System.out.println("Opção inexistente. Tente novamente");
+        }
+    }
+
+    private boolean fazerLogin() {
+        System.out.println("Digite seu Login: ");
+        String tentativaLogin = teclado.next();
+        System.out.println("Digite sua senha: ");
+        String tentativaSenha = teclado.next();
+
+        if (tentativaLogin.equals(login) && tentativaSenha.equals(senha)) {
+            System.out.println("Bem vindo, " + this.titular + "!");
+            this.acesso = true;
+
+        } else {
+            System.out.println("Login ou Senha incorretos, tente novamente!");
+            this.acesso = false;
+        }
+        return this.acesso;
+    }
+
+    private void operacao() {
+        while (resposta != 4) {
+            String menu;
+            menu = """
+                    ************************************ \n
+                    Dados do cliente \n
+                    Titular: %s\n
+                    Conta: %s\n
+                    Saldo: %d\n
+                    ************************************ \n
+                    Operações:\n
+                    1- Sacar\n
+                    2- Depositar\n
+                    3- Sacar
+                    """.formatted(titular,tipoConta,getSaldo());
+            System.out.println(menu);
+        }
+    }
 }
+
+
+
+
+
 
 
 
