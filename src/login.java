@@ -1,91 +1,5 @@
 import java.util.Scanner;
 
-public class Caixa {
-    private Scanner teclado;
-    private String login;
-    private String senha;
-    private String titular;
-    private String tipoConta;
-    private int resposta;
-    private boolean acesso;
-
-    public Caixa() {
-        this.teclado = new Scanner(System.in);
-    }
-
-    public void iniciar() {
-        while (resposta != 3) {
-            acesso = false;
-            String mensagem;
-            mensagem = """                 
-                    Olá, oque Deseja?\n
-                    1- Criar novos dados de login
-                    2- Fazer login
-                    3- Sair
-                    """;
-            System.out.println(mensagem);
-            resposta = teclado.nextInt();
-            if (resposta == 1) {
-                System.out.println("Digite seu nome completo: ");
-                titular = teclado.next();
-
-                System.out.println("Digite seu login: ");
-                String loginUsuario = teclado.next();
-                login = loginUsuario;
-                System.out.println("Digite sua senha: ");
-                String senhaUsuario = teclado.next();
-                senha = senhaUsuario;
-
-                System.out.println("Digite o tipo de conta \n" +
-                                   "1- Conta corrente \n" +
-                                   "2- Conta poupança");
-                tipoConta = teclado.next();
-                if (tipoConta.equals("1")) {
-                    System.out.println("Conta corrente criada!");
-                    String contaC = "Corrente";
-                    tipoConta = contaC;
-                } else if (tipoConta.equals("2")){
-                    System.out.println("Conta poupança criada!");
-                    String contaP = "Poupança";
-                    tipoConta = contaP;
-                }else {
-                    System.out.println("Opção inexistente. Tente novamente");
-                    continue;
-                }
-
-            } else if (resposta == 2) {
-                if (login == null) {
-                    System.out.println("Perfil ainda não foi criado!");
-                    continue;
-                }
-                System.out.println("Digite seu Login: ");
-                String tentativaLogin = teclado.next();
-                System.out.println("Digite sua senha: ");
-                String tentativaSenha = teclado.next();
-
-                if (tentativaLogin.equals(login) && tentativaSenha.equals(senha)){
-                    acesso = true;
-                    System.out.println("Bem vindo!");
-                    break;
-                } else {
-                    System.out.println("Login ou Senha incorretos, tente novamente!");
-                }
-
-            }
-
-        }
-
-
-    }
-
-
-}
-
-
-
-/*
-import java.util.Scanner;
-
 public class login {
     public static void main(String[] args) {
         Scanner banco = new Scanner(System.in);
@@ -98,7 +12,7 @@ public class login {
 
         while (dados != 3) {
             String mensagem;
-            mensagem = """
+            mensagem = """                 
                     Olá, oque Deseja?\n
                     1- Criar novos dados de login
                     2- Fazer login
@@ -200,5 +114,3 @@ public class login {
         }
     }
 }
-
- */
